@@ -243,7 +243,13 @@ The first and last lines should be omitted if building outside of Docker.
 The very first build after a fresh checkout is the hardest.  Give yourself sufficient time to generate the first build and work through any failures before attempting to modify JELOS.
 
 - Download errors produce misleading failure messages.  Beware of chasing red herrings.  A network failure is much more likely than a bug in the makefile, given how frequently it is tested by the CI system and other devs.
-- Try cleaning the failed package (see above) and building again.
-- If you suspect a download failure, manually delete the relevant package(s) from the `sources` and `build.JELOS-...` directories, to force a full package re-download and re-build.
+- Try cleaning the failed package and building again. Setting `CLEAN_SOURCES` to `true` will remove and redownload the packages source.
+   ``` bash
+   make docker-shell
+   export PROJECT=PC DEVICE=AMD64 ARCH=x86_64
+   CLEAN_SOURCES=true ./scripts/clean busybox
+   ./scripts/build busybox
+   exit
+   ```
 - Exhaust all options before using `make clean` since this deletes the build cache and takes hours to regenerate.
 - As a very last resort, delete the entire local repository and start over.
